@@ -13,20 +13,7 @@ axios.get('https://api.github.com/users/D2MBingo5')
   .catch( err => {
     console.log(err)
   })
-  .finally(() => {console.log('done')})
-
-  axios.get('https://api.github.com/users/D2MBingo5')
-    .then(res => {
-      console.log(res.data)
-      const newCard = gitCard(res)
-      console.log(newCard)
-      return newCard      
-    })
-    .then(newCard => {
-      cards.appendChild(newCard)
-    })
-    .catch(err => console.log(err))
-    .finally(() => console.log('done'))
+  .finally(() => {console.log('done')})  
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -41,6 +28,19 @@ axios.get('https://api.github.com/users/D2MBingo5')
     and append the returned markup to the DOM as a child of .cards
 */
 const cards = document.querySelector('.cards')
+
+axios.get('https://api.github.com/users/D2MBingo5')
+    .then(res => {
+      console.log(res.data)
+      const newCard = gitCard(res)
+      console.log(newCard)
+      return newCard      
+    })
+    .then(newCard => {
+      cards.appendChild(newCard)
+    })
+    .catch(err => console.log(err))
+    .finally(() => console.log('done'))
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -52,7 +52,33 @@ const cards = document.querySelector('.cards')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'Jie-chelchel',
+  'rkshockey',
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+function followersCards(un){
+  axios.get(`https://api.github.com/users/${un}`)
+    .then(res => {
+      res.forEach(flCard => {
+        un = res.data.login
+        console.log(res.data)
+        const newCard = gitCard(flCard)
+        console.log(newCard)
+        cards.appendChild(newCard)
+      })      
+      return un      
+    })
+    .catch(err => console.log(err))
+    .finally(() => console.log('done'))
+}
+followersCards(followersArray)
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
