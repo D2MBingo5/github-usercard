@@ -61,24 +61,40 @@ const followersArray = [
   'luishrd',
   'bigknell'
 ];
+console.log(followersArray)
 
-function followersCards(un){
-  axios.get(`https://api.github.com/users/${un}`)
+followersArray.forEach(item => {
+  cardsFromArray(item)
+})
+
+function cardsFromArray(un){
+ axios.get(`https://api.github.com/users/${un}`)
     .then(res => {
-      res.forEach(flCard => {
-        un = res.data.login
-        console.log(res.data)
-        const newCard = gitCard(flCard)
-        console.log(newCard)
-        cards.appendChild(newCard)
-      })      
-      return un      
+      console.log(res.data)
+      const newCard = gitCard(res)
+      console.log(newCard)
+      return newCard      
+    })
+    .then(newCard => {
+      cards.appendChild(newCard)
     })
     .catch(err => console.log(err))
-    .finally(() => console.log('done'))
+    .finally(() => console.log('done')) 
 }
-followersCards(followersArray)
 
+
+// function cardsFromArray(array){
+//   array.forEach( item => {
+//     let un = item.data.login
+//     console.log(un)
+//   })
+//   // const newCard = gitCard()
+//   // cards.appendChild(newCard)
+//   // return newCard
+// }
+// cardsFromArray(followersArray)
+
+// `https://api.github.com/users/${un}`
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
